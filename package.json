@@ -1,0 +1,9 @@
+{
+  "name": "presentation-controller",
+  "version": "1.0.0",
+  "description": "presentation-controller for project",
+  "main": "index.js",
+  "author": "rokity <riccardo.amadio1@gmail.com>",
+  "license": "MIT",
+  "private": true
+}
