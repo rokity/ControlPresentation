@@ -5,5 +5,15 @@
   "main": "index.js",
   "author": "rokity <riccardo.amadio1@gmail.com>",
   "license": "MIT",
-  "private": true
+  "scripts": {
+    "start": "nodemon ./app.js"
+  },
+  "private": true,
+  "dependencies": {
+    "nodemon": "^1.18.4",
+    "qrcode": "^1.3.0",
+    "qrcode-terminal": "^0.12.0",
+    "robotjs": "^0.5.1",
+    "websocket": "^1.0.28"
+  }
 }

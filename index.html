@@ -1,0 +1,129 @@
+<html>
+
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+    <style>
+        .arrow {
+            width: 300px;
+            height: 100px;
+            margin-bottom: 10px;
+            display: inline-block;
+        }
+
+
+
+        .arrow.right {
+            border-top: 80px solid transparent;
+            border-bottom: 80px solid transparent;
+            border-left: 100px solid green;
+        }
+
+        .arrow.left {
+            border-top: 80px solid transparent;
+            border-bottom: 80px solid transparent;
+            border-right: 100px solid blue;
+        }
+
+
+        .parent {
+            position: relative;
+        }
+
+        .child-left {
+            position: absolute;
+            top: 50%;
+            left: 0%;
+            transform: translate(-70%, -50%);
+        }
+
+        .child-right {
+            position: absolute;
+            top: 50%;
+            left: 100%;
+            transform: translate(-35%, -50%);
+        }
+
+        i {
+            border: solid black;
+            border-width: 0 50px 50px 0;
+            display: inline-block;
+            padding: 3px;
+            width: 50px;
+            height: 50px;
+        }
+
+        .right {
+            transform: rotate(-45deg);
+            -webkit-transform: rotate(-45deg);
+            position: absolute;
+            margin: auto;
+            top:0;
+            bottom: 0;
+            right: 5%;
+        }
+
+        .left {
+            transform: rotate(135deg);
+            -webkit-transform: rotate(135deg);
+            position: absolute;
+            margin: auto;
+            top:0;
+            bottom: 0;
+            left: 5%;
+        }
+
+        .up {
+            transform: rotate(-135deg);
+            -webkit-transform: rotate(-135deg);
+            top: 25%;
+            left: 0;
+            right: 0;
+            position: absolute;
+            left: 0;
+            right: 0;
+            margin: 0 auto;
+        }
+
+        .down {
+            transform: rotate(45deg);
+            -webkit-transform: rotate(45deg);
+            bottom: 25%;
+            position: absolute;
+            left: 0;
+            right: 0;
+            margin: 0 auto;
+        }
+    </style>
+
+</head>
+
+<body>
+    <div id="parent">
+        <!-- <div  id="left" class="arrow left child-left " onclick="left()"></div> -->
+        <!-- <div  id="right" class="arrow right child-right " onclick="right()"></div> -->
+        <i class="right" onclick="left()"></i>
+        <i class="left" onclick="right()"></i>
+        <i class="up" onclick="up()"></i>
+        <i class="down" onclick="down()"></i>
+    </div>
+
+</body>
+<script>
+    var esempioSocket = new WebSocket("ws://" + location.host);
+
+    var left = () => {
+        esempioSocket.send("left");
+    }
+    var right = () => {
+        esempioSocket.send("right");
+    }
+    var up = () => {
+        esempioSocket.send("up");
+    }
+    var down = () => {
+        esempioSocket.send("down");
+    }
+</script>
+
+</html>
