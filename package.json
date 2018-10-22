@@ -10,8 +10,8 @@
   },
   "private": true,
   "dependencies": {
+    "network": "^0.4.1",
     "nodemon": "^1.18.4",
-    "qrcode": "^1.3.0",
     "qrcode-terminal": "^0.12.0",
     "robotjs": "^0.5.1",
     "websocket": "^1.0.28"
