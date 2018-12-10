@@ -14,7 +14,7 @@ const logger = pino({ prettyPrint: { colorize: true } });
  * It's the response to every HTTP Request 
  * of this server.
 */
-let server = http.createServer(res => {
+let server = http.createServer((req,res) => {
     //Set HTTP Status Code
     res.writeHead(200, { 'Content-Type': 'text/html' });
     //write the html response
@@ -67,7 +67,7 @@ let wsServer = new WebSocketServer({
 wsServer.on('request', function (request) {
     var connection = request.accept(null, request.origin);
     connection.on('message', function (message) {
-        logger.trace(message);
+        logger.info(message);
         robot.keyTap(message.utf8Data);
     });
 });
