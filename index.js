@@ -1,43 +1,68 @@
-var http = require('http');
-var fs = require('fs');
-var robot = require("robotjs");
-var qrcode = require('qrcode-terminal');
-var network = require('network');
+const http = require('http');
+const fs = require('fs');
+const robot = require("robotjs");
+const qrcode = require('qrcode-terminal');
+const network = require('network');
+const logger = require('pino')()
+const WebSocketServer = require('websocket').server;
 
-var html = fs.readFileSync('index.html', 'utf8');
+// Get the source of Control Page
+const html = fs.readFileSync('index.html', 'utf8');
 
-var WebSocketServer = require('websocket').server;
 
-
-console.log('after calling readFile');
-//create a server object:
-var server = http.createServer(function (req, res) {
-    res.writeHead(200, {
-        'Content-Type': 'text/html'
-    });
-    res.write(html); //write a response to the client
-    res.end(); //end the response
+/** 
+ * Create a HTTP server object
+ * It's the response to every HTTP Request 
+ * of this server.
+*/
+let server = http.createServer(res => {
+    //Set HTTP Status Code
+    res.writeHead(200, {'Content-Type': 'text/html'});
+    res.write(html); //write the html response
+    res.end(); //close the HTTP Connection
 })
-
+/**
+ * Catch the case if the server is already in use or started.
+ */
+server.on('error', (e) => {
+    if (e.code === 'EADDRINUSE') {
+      console.log(`
+      ERROR: Address in use
+      Maybe there are some service 
+      that actually working in the same port.
+      Check it and re-launch the app.  `);
+    }
+    process.exit(0)
+  });
+/**
+ * Launch the HTTP Server .
+ * Get the private IP of the host.
+ * Generate the QR Code from the url of the http-server and show it.
+ */
 server.listen(8080, function () {
-    console.log((new Date()) + ' Server is listening on port 8080');
-
+    console.log(' Server is listening on port 8080 ');
     network.get_private_ip(function (err, ip) {
-        add = 'http://' + ip + ':8080';
-        qrcode.generate(add);
+        const private_address = `http://${ip}:8080`;
+        qrcode.generate(private_address);
     })
-
-
 });
-wsServer = new WebSocketServer({
+/**
+ * Create the WebSocket Server from HTTP Server.
+ * The autoaccept property is disabled because 
+ * it's more secure for production enivronment.
+ */
+let wsServer = new WebSocketServer({
     httpServer: server,
-    // You should not use autoAcceptConnections for production
-    // applications, as it defeats all standard cross-origin protection
-    // facilities built into the protocol and the browser.  You should
-    // *always* verify the connection's origin and decide whether or not
-    // to accept it.
     autoAcceptConnections: false
 });
+/**
+ * Event for managing the WebSocket Request.
+ * Accept the request and on a new message 
+ * write on the console the message.
+ * Call RobotJS library which trigger 
+ * the left/right/up/down button event.
+ * The message could be 'left'|'right'|'up'|'down'.
+ */
 wsServer.on('request', function (request) {
     var connection = request.accept(null, request.origin);
     connection.on('message', function (message) {
@@ -45,13 +70,3 @@ wsServer.on('request', function (request) {
         robot.keyTap(message.utf8Data)
     });
 });
-
-
-var getLocalIPs = function () {
-
-    var script =
-        "ifconfig | grep -Eo 'inet (addr:)?([0-9]*\.){3}[0-9]*' | grep -Eo '([0-9]*\.){3}[0-9]*' | grep -v '127.0.0.1'"
-    exec(script, function (error, stdout, sterr) {
-        console.log('stdout: ' + stdout);
-    });
-};
