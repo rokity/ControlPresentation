@@ -3,13 +3,12 @@ const fs = require('fs');
 const robot = require("robotjs");
 const qrcode = require('qrcode-terminal');
 const network = require('network');
-const logger = require('pino')()
+const pino = require('pino');
 const WebSocketServer = require('websocket').server;
-
 // Get the source of Control Page
 const html = fs.readFileSync('index.html', 'utf8');
-
-
+//Initiate the PinoJS logger library,adding prettify
+const logger = pino({ prettyPrint: { colorize: true } });
 /** 
  * Create a HTTP server object
  * It's the response to every HTTP Request 
@@ -17,30 +16,32 @@ const html = fs.readFileSync('index.html', 'utf8');
 */
 let server = http.createServer(res => {
     //Set HTTP Status Code
-    res.writeHead(200, {'Content-Type': 'text/html'});
-    res.write(html); //write the html response
-    res.end(); //close the HTTP Connection
+    res.writeHead(200, { 'Content-Type': 'text/html' });
+    //write the html response
+    res.write(html);
+    //close the HTTP Connection
+    res.end();
 })
 /**
  * Catch the case if the server is already in use or started.
  */
 server.on('error', (e) => {
     if (e.code === 'EADDRINUSE') {
-      console.log(`
+        logger.fatal(`
       ERROR: Address in use
       Maybe there are some service 
       that actually working in the same port.
       Check it and re-launch the app.  `);
     }
-    process.exit(0)
-  });
+    process.exit(0);
+});
 /**
  * Launch the HTTP Server .
  * Get the private IP of the host.
  * Generate the QR Code from the url of the http-server and show it.
  */
 server.listen(8080, function () {
-    console.log(' Server is listening on port 8080 ');
+    logger.info(' Server is listening on port 8080 ');
     network.get_private_ip(function (err, ip) {
         const private_address = `http://${ip}:8080`;
         qrcode.generate(private_address);
@@ -66,7 +67,7 @@ let wsServer = new WebSocketServer({
 wsServer.on('request', function (request) {
     var connection = request.accept(null, request.origin);
     connection.on('message', function (message) {
-        console.log(message)
-        robot.keyTap(message.utf8Data)
+        logger.trace(message);
+        robot.keyTap(message.utf8Data);
     });
 });
