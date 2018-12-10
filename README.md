@@ -9,7 +9,7 @@ Control your Presentation from your smartphone with NodeJS and WebSocket.
 </ul>
 
 # Install & Start
-For Linux , run this script before  : 
+For Linux , run this script before run below script  : 
 
 ```bash
 sudo apt-get install libxtst-dev libpng++-dev ; npm install -g node-gyp
