@@ -28,7 +28,6 @@ Scan the QR Code with the mobile device and open the Presentation on the laptop.
 <ul>
 <li>Finish the CLI application
     <ul>
-        <li>Ask which port server need to listen</li>
         <li> Ask which network interface </li>
     </ul>
 </li>
