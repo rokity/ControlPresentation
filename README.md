@@ -26,11 +26,6 @@ Scan the QR Code with the mobile device and open the Presentation on the laptop.
 # TODO
 
 <ul>
-<li>Finish the CLI application
-    <ul>
-        <li> Ask which network interface </li>
-    </ul>
-</li>
 <li> Desktop Application </li>
 <li> Android Application </li>
 </ul>
