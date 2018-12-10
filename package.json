@@ -6,12 +6,11 @@
   "author": "rokity <riccardo.amadio1@gmail.com>",
   "license": "MIT",
   "scripts": {
-    "start": "nodemon ./app.js"
+    "start": "node index.js"
   },
   "private": true,
   "dependencies": {
     "network": "^0.4.1",
-    "nodemon": "^1.18.4",
     "qrcode-terminal": "^0.12.0",
     "robotjs": "^0.5.1",
     "websocket": "^1.0.28"
