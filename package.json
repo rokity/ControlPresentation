@@ -6,6 +6,7 @@
   "author": "rokity <riccardo.amadio1@gmail.com>",
   "license": "MIT",
   "scripts": {
+    "test": "standard --fix | snazzy ",
     "start": "node index.js"
   },
   "private": true,
@@ -19,6 +20,8 @@
     "websocket": "^1.0.28"
   },
   "devDependencies": {
-    "node-gyp": "^3.8.0"
+    "node-gyp": "^3.8.0",
+    "snazzy": "^8.0.0",
+    "standard": "^12.0.1"
   }
 }
