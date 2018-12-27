@@ -1,7 +1,6 @@
-const pino = require('pino')
 const readline = require('readline')
 // Initiate the PinoJS logger library,adding prettify
-global.logger = pino({ prettyPrint: { colorize: true } })
+const logger = require('pino')({ prettyPrint: { colorize: true } })
 // Http-Server module /lib/http-server.js
 let httpServer = require(`./lib/http-server.js`)
 // WebSocket-Server module /lib/websocket-server.js
@@ -19,6 +18,7 @@ const rl = readline.createInterface({
 rl.question('Which port do you want to use for the server ? (8080) :', (port) => {
   port = port.length > 0 ? port : 8080
   selectorNetwork(rl, (networkSelected) => {
+    logger.info("here")
     // Start HTTP-Server and WebSocket-Server
     httpServer.start(port, networkSelected['ip_address'])
     websocketServer.start(httpServer.server)
