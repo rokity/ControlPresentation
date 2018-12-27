@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/rokity/ControlPresentation.svg?branch=master)](https://travis-ci.org/rokity/ControlPresentation)
+
 # control-presentation-cli
 
 Control your Presentation from your smartphone with NodeJS and WebSocket.
